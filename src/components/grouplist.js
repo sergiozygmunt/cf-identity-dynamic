@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { MutatingDots } from 'react-loader-spinner';
 
 const GroupList = () => {
   const [groups, setGroups] = useState([]);
@@ -44,39 +43,40 @@ const GroupList = () => {
   }, []);
 
   return (
-    <div className="card-container bg-white p-6 rounded-lg border border-gray-light drop-shadow-sm relative">
-      <div className="flex justify-between items-center">
-        <h2 className="card-title text-xl font-semibold mb-3">Your Current Groups</h2>
-        <input
-          type="text"
-          id="searchBox"
-          placeholder="Search groups"
-          className="border border-steel p-2 rounded mb-5"
-          onChange={(e) => setSearchTerm(e.target.value)}
-          value={searchTerm}
-        />
+    <div className="govuk-card">
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-one-half">
+          <h2 className="govuk-heading-m">Your Current Groups</h2>
+        </div>
+        <div className="govuk-grid-column-one-half">
+          <div className="govuk-form-group">
+            <input
+              type="text"
+              id="searchBox"
+              placeholder="Search groups"
+              className="govuk-input"
+              onChange={(e) => setSearchTerm(e.target.value)}
+              value={searchTerm}
+            />
+          </div>
+        </div>
       </div>
 
       {loading ? (
-        <div className="flex justify-center items-center h-full w-full">
-         <MutatingDots height="100" width="100" color="#ff7901" secondaryColor="#ff7901" radius="12.5" ariaLabel="mutating-dots-loading" visible={true} />
-        </div>
+        <p className="govuk-body">Loading group information...</p>
       ) : error ? (
-        <p className="text-red">{error}</p>
+        <p className="govuk-body govuk-error-message">{error}</p>
       ) : (
         <>
-          <ul className={`info-list2 ${!expanded ? 'max-h-24 overflow-hidden' : ''}`}>
+          <ul className={`govuk-list govuk-list--bullet ${!expanded ? 'group-list-collapsed' : ''}`}>
             {filteredGroups.slice(0, expanded ? filteredGroups.length : defaultVisibleGroups).map((group, index) => (
-              <li key={index} className="mb-2">{group}</li>
+              <li key={index}>{group}</li>
             ))}
           </ul>
-          
+
           <button
-            className="w-full text-center text-white py-2 mt-2"
-            style={{
-              backgroundColor: expanded ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.2)',
-              transition: 'background-color 0.3s ease',
-            }}
+            className="govuk-button govuk-button--secondary"
+            data-module="govuk-button"
             onClick={toggleExpand}
           >
             {expanded ? 'Collapse list' : 'Expand list'}

@@ -1,3 +1,42 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* GOV.UK Design System loaded from CDN in index.html */
+/* Custom overrides and additional styles can be added here */
+
+.govuk-width-container {
+  max-width: 1200px;
+}
+
+/* Loading spinner styles for React loader */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Card styles matching GOV.UK patterns */
+.govuk-card {
+  background-color: #ffffff;
+  border: 1px solid #b1b4b6;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.govuk-card--error {
+  background-color: #fef7f7;
+  border-color: #d4351c;
+}
+
+.govuk-card--success {
+  background-color: #f3f9f3;
+  border-color: #00703c;
+}
+
+/* Group list collapsed state */
+.group-list-collapsed {
+  max-height: 150px;
+  overflow: hidden;
+}

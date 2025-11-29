@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const NavBar = ({ debugEnabled, primaryColor }) => {
   const [logoUrl, setLogoUrl] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchLogo = async () => {
       try {
-        const response = await fetch('/assets/logo'); // use the logo uploaded in debug - QoL
+        const response = await fetch('/assets/logo');
         if (!response.ok) {
           throw new Error('Failed to fetch logo from KV');
         }
@@ -22,50 +23,62 @@ const NavBar = ({ debugEnabled, primaryColor }) => {
     fetchLogo();
   }, []);
 
-  const getNavLinkClass = ({ isActive }) =>
-    isActive
-      ? 'bg-steel text-black px-4 h-full flex items-center rounded-t-md'
-      : 'text-white no-underline px-4 h-full flex items-center hover:bg-white hover:bg-opacity-20 rounded-t-md';
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <nav
-      className="flex justify-between items-center h-[4rem] px-4 pt-2 w-full"
-      style={{ backgroundColor: primaryColor }} // Use the primary color set in the debug
-    >
-      <div className="flex items-center">
-        <NavLink to="/access-denied" className="shrink-0">
-          {logoUrl ? (
-            <img
-              src={logoUrl}
-              alt="Logo"
-              className="h-full w-auto max-h-[3rem] min-h-[2rem] p-2" // Padding to accomidate logo sizes
-            />
-          ) : (
-            <span>Loading Logo...</span>
-          )}
-        </NavLink>
-        <span className="ml-14 text-2xl text-white font-medium">Identity and Access Help Page</span>
+    <header className="govuk-header" role="banner" data-module="govuk-header">
+      <div className="govuk-header__container govuk-width-container">
+        <div className="govuk-header__logo">
+          <NavLink to="/access-denied" className="govuk-header__link govuk-header__link--homepage">
+            {logoUrl ? (
+              <img
+                src={logoUrl}
+                alt="Logo"
+                style={{ maxHeight: '40px', width: 'auto' }}
+              />
+            ) : (
+              <span className="govuk-header__logotype">
+                <span className="govuk-header__logotype-text">Logo</span>
+              </span>
+            )}
+          </NavLink>
+        </div>
+        <div className="govuk-header__content">
+          <NavLink to="/access-denied" className="govuk-header__link govuk-header__service-name">
+            Identity and Access Help Page
+          </NavLink>
+          <nav aria-label="Menu" className="govuk-header__navigation">
+            <button
+              type="button"
+              className="govuk-header__menu-button govuk-js-header-toggle"
+              aria-controls="navigation"
+              aria-label="Show or hide menu"
+            >
+              Menu
+            </button>
+            <ul id="navigation" className="govuk-header__navigation-list">
+              <li className={`govuk-header__navigation-item ${isActive('/access-denied') || isActive('/') ? 'govuk-header__navigation-item--active' : ''}`}>
+                <NavLink className="govuk-header__link" to="/access-denied">
+                  Access Denied
+                </NavLink>
+              </li>
+              <li className={`govuk-header__navigation-item ${isActive('/information') ? 'govuk-header__navigation-item--active' : ''}`}>
+                <NavLink className="govuk-header__link" to="/information">
+                  Information
+                </NavLink>
+              </li>
+              {debugEnabled && (
+                <li className={`govuk-header__navigation-item ${isActive('/debug') ? 'govuk-header__navigation-item--active' : ''}`}>
+                  <NavLink className="govuk-header__link" to="/debug">
+                    Debug
+                  </NavLink>
+                </li>
+              )}
+            </ul>
+          </nav>
+        </div>
       </div>
-      <ul className="flex space-x-4 h-full">
-        <li className="list-none">
-          <NavLink to="/access-denied" className={getNavLinkClass}>
-            Access Denied
-          </NavLink>
-        </li>
-        <li className="list-none">
-          <NavLink to="/information" className={getNavLinkClass}>
-            Information
-          </NavLink>
-        </li>
-        {debugEnabled && (
-          <li className="list-none">
-            <NavLink to="/debug" className={getNavLinkClass}>
-              Debug
-            </NavLink>
-          </li>
-        )}
-      </ul>
-    </nav>
+    </header>
   );
 };
 

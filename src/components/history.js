@@ -74,52 +74,50 @@ const History = ({ onLoaded }) => {
   }, [onLoaded]);
 
   return (
-    <div className={warpEnabled ? "card-normal" : "card-error"}>
+    <div className={warpEnabled ? "govuk-card" : "govuk-card govuk-card--error"}>
       {warpEnabled ? (
         <>
-          <h2 className="text-xl font-semibold mb-4">Recent Access Login Failures</h2>
+          <h2 className="govuk-heading-m">Recent Access Login Failures</h2>
           {loginHistory ? (
-            <div className="overflow-x-auto">
-              <table className="table-auto w-full border-collapse">
-                <thead>
-                  <tr>
-                    <th className="px-4 py-1 text-center text-sm text-roman-silver leading-tight">Date</th>
-                    <th className="px-4 py-1 text-center text-sm text-roman-silver leading-tight">Time</th>
-                    <th className="px-4 py-1 text-center text-sm text-roman-silver leading-tight">
-                      Application Name
-                    </th>
-                    <th className="px-4 py-1 text-center text-sm text-roman-silver leading-tight">Reason</th>
+            <table className="govuk-table">
+              <caption className="govuk-table__caption govuk-table__caption--s govuk-visually-hidden">
+                Failed login attempts in the last 10 minutes
+              </caption>
+              <thead className="govuk-table__head">
+                <tr className="govuk-table__row">
+                  <th scope="col" className="govuk-table__header">Date</th>
+                  <th scope="col" className="govuk-table__header">Time</th>
+                  <th scope="col" className="govuk-table__header">Application</th>
+                  <th scope="col" className="govuk-table__header">Reason</th>
+                </tr>
+              </thead>
+              <tbody className="govuk-table__body">
+                {loginHistory.map((entry, index) => (
+                  <tr key={index} className="govuk-table__row">
+                    <td className="govuk-table__cell">{entry.date}</td>
+                    <td className="govuk-table__cell">{entry.time}</td>
+                    <td className="govuk-table__cell">{entry.applicationName}</td>
+                    <td className="govuk-table__cell">
+                      <strong className="govuk-tag govuk-tag--red">{entry.reason.label}</strong>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {loginHistory.map((entry, index) => (
-                    <tr key={index}>
-                      <td className="px-4 py-1 text-center leading-tight">{entry.date}</td>
-                      <td className="px-4 py-1 text-center leading-tight">{entry.time}</td>
-                      <td className="px-4 py-1 text-center leading-tight">{entry.applicationName}</td>
-                      <td className="px-4 py-1 text-center leading-tight">
-                        <span
-                          className={`inline-block rounded-md px-3 py-1 text-sm text-white ${entry.reason.color}`}
-                        >
-                          {entry.reason.label}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
           ) : (
-            <p className="text-black">No recent Access login failures observed.</p>
+            <p className="govuk-body">No recent Access login failures observed.</p>
           )}
         </>
       ) : (
-        <div className="text-black p-5 flex items-center h-full">
-          <span className="icon cross-icon mr-2"></span>
-          {errorMessage || "Please enable WARP to view detailed login history."}
+        <div className="govuk-warning-text">
+          <span className="govuk-warning-text__icon" aria-hidden="true">!</span>
+          <strong className="govuk-warning-text__text">
+            <span className="govuk-visually-hidden">Warning</span>
+            {errorMessage || "Please enable WARP to view detailed login history."}
+          </strong>
         </div>
       )}
-      {errorMessage && <p className="text-black mt-4">{errorMessage}</p>}
+      {errorMessage && <p className="govuk-error-message">{errorMessage}</p>}
     </div>
   );
 };

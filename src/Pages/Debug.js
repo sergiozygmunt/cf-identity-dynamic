@@ -5,8 +5,6 @@ const Debug = () => {
   const [debugInfo, setDebugInfo] = useState(null);
   const [devicePosture, setDevicePosture] = useState(null);
   const [error, setError] = useState(null);
-  const [isIdentityExpanded, setIsIdentityExpanded] = useState(false);
-  const [isDeviceExpanded, setIsDeviceExpanded] = useState(false);
 
   const forcePageReload = () => {
     window.location.reload();
@@ -52,81 +50,81 @@ const Debug = () => {
 
   return (
     <div className="bg-steel min-h-screen">
-      <div className="p-6">
-        <h1 className="text-2xl font-bold mb-4 text-gray-dark">
-          Debug Information
-        </h1>
+      <div className="govuk-width-container">
+        <main className="govuk-main-wrapper">
+          <h1 className="govuk-heading-xl">
+            Debug Information
+          </h1>
 
-        {/* Collapsible get-identity  */}
-        <div className="p-4 border border-gray-light rounded-lg mb-6 bg-white">
-          <h2
-            className="text-xl font-semibold mb-2 text-gray-dark cursor-pointer"
-            onClick={() => setIsIdentityExpanded(!isIdentityExpanded)}
-          >
-            {isIdentityExpanded ? "▼" : "►"} get-identity response
-          </h2>
+          {/* GOV.UK Details component for get-identity */}
+          <details className="govuk-details">
+            <summary className="govuk-details__summary">
+              <span className="govuk-details__summary-text">
+                get-identity response
+              </span>
+            </summary>
+            <div className="govuk-details__text">
+              {error ? (
+                <p className="text-red">{error}</p>
+              ) : (
+                <pre style={{ backgroundColor: "#f3f2f1", padding: "1rem", borderRadius: "4px" }}>
+                  {JSON.stringify(debugInfo, null, 2)}
+                </pre>
+              )}
+            </div>
+          </details>
 
-          {isIdentityExpanded &&
-            (error ? (
-              <p className="text-red">{error}</p>
-            ) : (
-              <pre className="bg-gray-light p-4 rounded">
-                {JSON.stringify(debugInfo, null, 2)}
-              </pre>
-            ))}
-        </div>
-
-        {/* Collapsible Device Posture */}
-        <div className="p-4 border border-gray-light rounded-lg bg-white">
-          <h2
-            className="text-xl font-semibold mb-2 text-gray-dark cursor-pointer"
-            onClick={() => setIsDeviceExpanded(!isDeviceExpanded)}
-          >
-            {isDeviceExpanded ? "▼" : "►"} Device Posture Information
-          </h2>
-
-          {isDeviceExpanded &&
-            (devicePosture ? (
-              <div>
-                <p className="mb-2 text-gray-dark">Device Posture details:</p>
-                <div className="bg-gray-light p-4 rounded">
-                  {Object.keys(devicePosture).map((key) => (
-                    <div key={key} className="mb-4">
-                      <h3 className="font-bold mb-2 text-gray-dark">
-                        {devicePosture[key].rule_name || "Unnamed Rule"} (
-                        {devicePosture[key].type})
-                      </h3>
-                      <p>
-                        <strong>Success:</strong>{" "}
-                        {devicePosture[key].success ? "Yes" : "No"}
-                      </p>
-                      <p>
-                        <strong>Error:</strong>{" "}
-                        {devicePosture[key].error || "No errors"}
-                      </p>
-                      <p>
-                        <strong>Timestamp:</strong>{" "}
-                        {new Date(
-                          devicePosture[key].timestamp
-                        ).toLocaleString()}
-                      </p>
-                      <pre className="bg-white p-2 rounded mt-2">
-                        {JSON.stringify(devicePosture[key].input, null, 2)}
-                      </pre>
-                    </div>
-                  ))}
+          {/* GOV.UK Details component for Device Posture */}
+          <details className="govuk-details">
+            <summary className="govuk-details__summary">
+              <span className="govuk-details__summary-text">
+                Device Posture Information
+              </span>
+            </summary>
+            <div className="govuk-details__text">
+              {devicePosture ? (
+                <div>
+                  <p className="govuk-body">Device Posture details:</p>
+                  <div style={{ backgroundColor: "#f3f2f1", padding: "1rem", borderRadius: "4px" }}>
+                    {Object.keys(devicePosture).map((key) => (
+                      <div key={key} style={{ marginBottom: "1.5rem" }}>
+                        <h3 className="govuk-heading-s">
+                          {devicePosture[key].rule_name || "Unnamed Rule"} (
+                          {devicePosture[key].type})
+                        </h3>
+                        <p className="govuk-body">
+                          <strong>Success:</strong>{" "}
+                          {devicePosture[key].success ? "Yes" : "No"}
+                        </p>
+                        <p className="govuk-body">
+                          <strong>Error:</strong>{" "}
+                          {devicePosture[key].error || "No errors"}
+                        </p>
+                        <p className="govuk-body">
+                          <strong>Timestamp:</strong>{" "}
+                          {new Date(
+                            devicePosture[key].timestamp
+                          ).toLocaleString()}
+                        </p>
+                        <pre style={{ backgroundColor: "#ffffff", padding: "0.5rem", borderRadius: "4px", marginTop: "0.5rem" }}>
+                          {JSON.stringify(devicePosture[key].input, null, 2)}
+                        </pre>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <p className="text-gray-dark">
-                No device posture information available.
-              </p>
-            ))}
-        </div>
+              ) : (
+                <p className="govuk-body">
+                  No device posture information available.
+                </p>
+              )}
+            </div>
+          </details>
 
-        <div className="p-4 border border-gray-light rounded-lg bg-white mt-6">
-          <Setup />
-        </div>
+          <div className="p-4 border border-gray-light rounded-lg bg-white mt-6">
+            <Setup />
+          </div>
+        </main>
       </div>
     </div>
   );

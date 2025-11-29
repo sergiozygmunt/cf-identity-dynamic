@@ -63,41 +63,53 @@ const WarpInfo = ({ onLoaded }) => {
   }, [onLoaded]);
 
   return (
-    <div className={warpEnabled ? "card-normal" : "card-error"}>
+    <div className={warpEnabled ? "govuk-card" : "govuk-card govuk-card--error"}>
       {warpEnabled ? (
         <>
-          <h2 className="text-xl font-semibold mb-4">WARP Information</h2>
-          <ul className="mb-4 space-y-4">
-            <li className="info-item">
-              <span className="icon info-icon mr-2"></span>
-              {userData.user_name}
-            </li>
-            <li className="info-item">
-              <span className="icon info-icon mr-2"></span>
-              {userData.user_email}
-            </li>
-            <li className="info-item">
-              <span className="icon check-icon mr-2"></span>WARP is enabled
-            </li>
-            <li className="info-item">
-              <span
-                className={`icon ${
-                  userData.is_in_org ? "check-icon" : "cross-icon"
-                } mr-2`}
-              ></span>
-              {userData.is_in_org
-                ? `User is in the "${envVars.ORGANIZATION_NAME}" organization`
-                : `User is not in the "${envVars.ORGANIZATION_NAME}" organization`}
-            </li>
-          </ul>
+          <h2 className="govuk-heading-m">WARP Information</h2>
+          <dl className="govuk-summary-list">
+            <div className="govuk-summary-list__row">
+              <dt className="govuk-summary-list__key">User name</dt>
+              <dd className="govuk-summary-list__value">{userData.user_name}</dd>
+            </div>
+            <div className="govuk-summary-list__row">
+              <dt className="govuk-summary-list__key">Email</dt>
+              <dd className="govuk-summary-list__value">{userData.user_email}</dd>
+            </div>
+            <div className="govuk-summary-list__row">
+              <dt className="govuk-summary-list__key">WARP status</dt>
+              <dd className="govuk-summary-list__value">
+                <strong className="govuk-tag govuk-tag--green">Enabled</strong>
+              </dd>
+            </div>
+            <div className="govuk-summary-list__row">
+              <dt className="govuk-summary-list__key">Organization</dt>
+              <dd className="govuk-summary-list__value">
+                {userData.is_in_org ? (
+                  <>
+                    <strong className="govuk-tag govuk-tag--green">Correct</strong>
+                    {' '}{envVars.ORGANIZATION_NAME}
+                  </>
+                ) : (
+                  <>
+                    <strong className="govuk-tag govuk-tag--red">Incorrect</strong>
+                    {' '}Not in "{envVars.ORGANIZATION_NAME}"
+                  </>
+                )}
+              </dd>
+            </div>
+          </dl>
         </>
       ) : (
-        <div className="text-black p-5">
-          <span className="icon cross-icon mr-2"></span>
-          Please enable WARP to view detailed user information.
+        <div className="govuk-warning-text">
+          <span className="govuk-warning-text__icon" aria-hidden="true">!</span>
+          <strong className="govuk-warning-text__text">
+            <span className="govuk-visually-hidden">Warning</span>
+            Please enable WARP to view detailed user information.
+          </strong>
         </div>
       )}
-      {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
+      {errorMessage && <p className="govuk-error-message">{errorMessage}</p>}
     </div>
   );
 };

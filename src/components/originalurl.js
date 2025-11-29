@@ -31,8 +31,8 @@ const OriginalUrl = () => {
     }
 
     return (
-        <div className="my-4">
-            <button onClick={handleButtonClick} className="bg-red hover:bg-dark-red text-white font-bold py-2 px-4 rounded">
+        <div className="govuk-!-margin-bottom-4">
+            <button onClick={handleButtonClick} className="govuk-button govuk-button--warning" data-module="govuk-button">
                 Refresh Access Application
             </button>
         </div>

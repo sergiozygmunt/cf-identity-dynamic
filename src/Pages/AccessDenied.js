@@ -53,69 +53,77 @@ const AccessDenied = ({ primaryColor, secondaryColor }) => {
             ariaLabel="mutating-dots-loading"
             visible={true}
           />
-          <h2 className="text-xl font-semibold" style={{ color: "black" }}>
+          <h2 className="govuk-body" style={{ color: "black" }}>
             Checking your connection
           </h2>
         </div>
       )}
 
       {/* Main Content */}
-      <div
-        className={`max-w-7xl mx-auto p-6 sm:p-10 ${
-          loadingPage ? "opacity-0" : "opacity-100"
-        } transition-opacity duration-500`}
-      >
-        <h1 className="text-4xl font-bold mb-6 text-center">Access Denied</h1>
-        <div className="flex justify-center">
-          <OriginalUrl />
-        </div>
-
-        <hr className="my-6 border-gray-light" />
-        <h3 className="text-2xl font-bold mb-6">Overview</h3>
-        <p className="mb-4">
-          One of the following sections describes why you were denied access to
-          the site you attempted to visit. Currently, Cloudflare Access does not
-          provide the exact reason for denial, therefore, this Access Denied
-          page describes the most common reasons for access denials.
-        </p>
-        <div className="container mx-auto p-4">
-          <Alert type="info">
-            Please review the provided information in order to troubleshoot any
-            potential user, group, or device requirements that are not met.
-          </Alert>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3 h-full">
-          <WarpInfo onLoaded={handleWarpInfoLoaded} />
-          <Posture />
-
-          <div className="flex flex-col h-full min-h-[100px]">
-            <DeviceInfo onLoaded={handleDeviceInfoLoaded} />
+      <div className="govuk-width-container">
+        <main
+          className={`govuk-main-wrapper ${
+            loadingPage ? "opacity-0" : "opacity-100"
+          } transition-opacity duration-500`}
+        >
+          <h1 className="govuk-heading-xl" style={{ textAlign: "center" }}>Access Denied</h1>
+          <div className="flex justify-center">
+            <OriginalUrl />
           </div>
 
-          <div className="flex flex-col h-full min-h-[100px]">
-            <History onLoaded={handleHistoryLoaded} />
-          </div>
-        </div>
-
-        <hr className="my-6 border-gray-light" />
-
-        {/* Set this up to be your intended "click to contact" support section (redirect or email).*/}
-
-        <div className="container mx-auto p-4 flex items-center">
-          <p className="mr-4">
-            Consult the information below for further details surrounding the
-            above status information, for further assistance:
+          <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+          <h2 className="govuk-heading-l">Overview</h2>
+          <p className="govuk-body">
+            One of the following sections describes why you were denied access to
+            the site you attempted to visit. Currently, Cloudflare Access does not
+            provide the exact reason for denial, therefore, this Access Denied
+            page describes the most common reasons for access denials.
           </p>
-          <a href="mailto:IT@example.com" className="inline-block">
-            <Button variant="secondary" secondaryColor={secondaryColor}>
-              Contact Support
-            </Button>
-          </a>
-        </div>
+          <div className="container mx-auto p-4">
+            <Alert type="info">
+              Please review the provided information in order to troubleshoot any
+              potential user, group, or device requirements that are not met.
+            </Alert>
+          </div>
 
-        <hr className="my-6 border-gray-light" />
-        <AccessDeniedInfo />
+          <div className="govuk-grid-row">
+            <div className="govuk-grid-column-one-half">
+              <WarpInfo onLoaded={handleWarpInfoLoaded} />
+            </div>
+            <div className="govuk-grid-column-one-half">
+              <Posture />
+            </div>
+          </div>
+
+          <div className="govuk-grid-row">
+            <div className="govuk-grid-column-one-half">
+              <DeviceInfo onLoaded={handleDeviceInfoLoaded} />
+            </div>
+
+            <div className="govuk-grid-column-one-half">
+              <History onLoaded={handleHistoryLoaded} />
+            </div>
+          </div>
+
+          <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+          {/* Set this up to be your intended "click to contact" support section (redirect or email).*/}
+
+          <div className="container mx-auto p-4 flex items-center">
+            <p className="govuk-body mr-4">
+              Consult the information below for further details surrounding the
+              above status information, for further assistance:
+            </p>
+            <a href="mailto:IT@example.com" className="inline-block">
+              <Button variant="secondary" secondaryColor={secondaryColor}>
+                Contact Support
+              </Button>
+            </a>
+          </div>
+
+          <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+          <AccessDeniedInfo />
+        </main>
       </div>
     </div>
   );

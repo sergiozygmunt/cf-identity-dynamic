@@ -157,75 +157,81 @@ const Posture = ({ onLoaded }) => {
     osStatus.passed;
 
   return (
-    <div className={allPassed ? "card-normal" : "card-error"}>
+    <div className={allPassed ? "govuk-card" : "govuk-card govuk-card--error"}>
       {warpEnabled ? (
         <>
-          <h2 className="text-xl font-semibold mb-4">
-            Device Posture Requirements
-          </h2>
-          <ul className="mb-4 space-y-4">
+          <h2 className="govuk-heading-m">Device Posture Requirements</h2>
+          <ul className="govuk-task-list">
             {/* Security Key Status */}
-            <li className="info-item">
-              <span
-                className={`icon ${
-                  securityKey === "Security Key in Use"
-                    ? "check-icon"
-                    : "cross-icon"
-                }`}
-              ></span>
-              <span>{securityKey}</span>
+            <li className="govuk-task-list__item">
+              <span className="govuk-task-list__name-and-hint">
+                <span className="govuk-task-list__name">Security Key</span>
+              </span>
+              {securityKey === "Security Key in Use" ? (
+                <strong className="govuk-tag govuk-tag--green govuk-task-list__tag">In Use</strong>
+              ) : (
+                <strong className="govuk-tag govuk-tag--red govuk-task-list__tag">Not Used</strong>
+              )}
             </li>
 
             {/* CrowdStrike Status */}
-            <li className="info-item">
-              <span
-                className={`icon ${
-                  crowdstrikeStatus?.includes("successful")
-                    ? "check-icon"
-                    : "cross-icon"
-                }`}
-              ></span>
-              <span>{crowdstrikeStatus}</span>
+            <li className="govuk-task-list__item">
+              <span className="govuk-task-list__name-and-hint">
+                <span className="govuk-task-list__name">CrowdStrike Posture</span>
+              </span>
+              {crowdstrikeStatus?.includes("successful") ? (
+                <strong className="govuk-tag govuk-tag--green govuk-task-list__tag">Pass</strong>
+              ) : (
+                <strong className="govuk-tag govuk-tag--red govuk-task-list__tag">Fail</strong>
+              )}
             </li>
 
             {/* OS status */}
-            <li
-              className="info-item relative"
-              ref={tooltipTriggerRef}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <span
-                className={`icon ${
-                  osStatus.passed ? "check-icon" : "cross-icon"
-                }`}
-              ></span>
-              <span>{osStatus.message}</span>
+            <li className="govuk-task-list__item">
+              <span className="govuk-task-list__name-and-hint">
+                <span className="govuk-task-list__name">Operating System</span>
+                <span
+                  className="govuk-task-list__hint"
+                  ref={tooltipTriggerRef}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {osStatus.message} (hover for details)
+                </span>
+              </span>
+              {osStatus.passed ? (
+                <strong className="govuk-tag govuk-tag--green govuk-task-list__tag">Up to date</strong>
+              ) : (
+                <strong className="govuk-tag govuk-tag--red govuk-task-list__tag">Update required</strong>
+              )}
               {tooltipStyles.top &&
                 createPortal(
                   <div
-                    className="tooltip"
+                    className="govuk-card"
                     style={{
                       position: "absolute",
                       ...tooltipStyles,
                       zIndex: 9999,
+                      maxWidth: '400px',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
                     }}
                   >
-                    <ul>
+                    <h3 className="govuk-heading-s">Posture Check Details</h3>
+                    <ul className="govuk-list govuk-list--bullet">
                       {osPostureChecks.map((check, index) => (
-                        <li key={index} className="info-item">
-                          <span
-                            className={`icon ${
-                              check.success ? "check-icon" : "cross-icon"
-                            }`}
-                          ></span>
-                          <span>{`${check.name}: ${
+                        <li key={index}>
+                          <strong className={`govuk-tag govuk-tag--${check.success ? 'green' : 'red'}`}>
+                            {check.success ? '✓' : '✗'}
+                          </strong>
+                          {' '}
+                          {check.name}: {
                             check.checked
                               ? check.success
                                 ? "Compliant"
                                 : "Non-compliant"
                               : "Rule was not checked"
-                          }`}</span>
+                          }
                         </li>
                       ))}
                     </ul>
@@ -236,12 +242,15 @@ const Posture = ({ onLoaded }) => {
           </ul>
         </>
       ) : (
-        <div className="text-black p-5">
-          <span className="icon cross-icon mr-2"></span>
-          Please enable WARP to view device posture information.
+        <div className="govuk-warning-text">
+          <span className="govuk-warning-text__icon" aria-hidden="true">!</span>
+          <strong className="govuk-warning-text__text">
+            <span className="govuk-visually-hidden">Warning</span>
+            Please enable WARP to view device posture information.
+          </strong>
         </div>
       )}
-      {errorMessage && <p className="text-red mt-4">{errorMessage}</p>}
+      {errorMessage && <p className="govuk-error-message">{errorMessage}</p>}
     </div>
   );
 };

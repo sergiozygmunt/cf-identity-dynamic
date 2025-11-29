@@ -61,47 +61,49 @@ const DeviceInfo = ({ onLoaded }) => {
   }, [onLoaded]);
 
   return (
-    <div className={warpEnabled ? "card-normal" : "card-error"}>
+    <div className={warpEnabled ? "govuk-card" : "govuk-card govuk-card--error"}>
       {warpEnabled ? (
         userData.is_WARP_enabled ? (
           <>
-            <h2 className="text-xl font-semibold mb-4">Device Information</h2>
-            <ul className="mb-4 space-y-4">
-              <li className="info-item">
-                <span className="icon info-icon mr-2"></span>
-                <strong>Device Model: </strong>
-                {userData.device_model}
-              </li>
-              <li className="info-item">
-                <span className="icon info-icon mr-2"></span>
-                <strong>Device Name: </strong>
-                {userData.device_name}
-              </li>
-              <li className="info-item">
-                <span className="icon info-icon mr-2"></span>
-                <strong>OS Version: </strong>
-                {userData.device_os_ver}
-              </li>
-              <li className="info-item">
-                <span className="icon info-icon mr-2"></span>
-                <strong>Serial Number: </strong>
-                {userData.device_ID}
-              </li>
-            </ul>
+            <h2 className="govuk-heading-m">Device Information</h2>
+            <dl className="govuk-summary-list">
+              <div className="govuk-summary-list__row">
+                <dt className="govuk-summary-list__key">Device Model</dt>
+                <dd className="govuk-summary-list__value">{userData.device_model}</dd>
+              </div>
+              <div className="govuk-summary-list__row">
+                <dt className="govuk-summary-list__key">Device Name</dt>
+                <dd className="govuk-summary-list__value">{userData.device_name}</dd>
+              </div>
+              <div className="govuk-summary-list__row">
+                <dt className="govuk-summary-list__key">OS Version</dt>
+                <dd className="govuk-summary-list__value">{userData.device_os_ver}</dd>
+              </div>
+              <div className="govuk-summary-list__row">
+                <dt className="govuk-summary-list__key">Serial Number</dt>
+                <dd className="govuk-summary-list__value">{userData.device_ID}</dd>
+              </div>
+            </dl>
           </>
         ) : (
-          <div className="text-black p-5 flex items-center">
-            <span className="icon cross-icon mr-2"></span>
-            Device information unavailable.
+          <div className="govuk-warning-text">
+            <span className="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong className="govuk-warning-text__text">
+              <span className="govuk-visually-hidden">Warning</span>
+              Device information unavailable.
+            </strong>
           </div>
         )
       ) : (
-        <div className="text-black p-5 flex items-center">
-          <span className="icon cross-icon mr-2"></span>
-          {errorMessage || "WARP is not enabled. Please enable WARP to view device information."}
+        <div className="govuk-warning-text">
+          <span className="govuk-warning-text__icon" aria-hidden="true">!</span>
+          <strong className="govuk-warning-text__text">
+            <span className="govuk-visually-hidden">Warning</span>
+            {errorMessage || "WARP is not enabled. Please enable WARP to view device information."}
+          </strong>
         </div>
       )}
-      {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
+      {errorMessage && <p className="govuk-error-message">{errorMessage}</p>}
     </div>
   );
 };

@@ -32,7 +32,7 @@ const SpecialGroup = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading group information...</div>;
+    return <p className="govuk-body">Loading group information...</p>;
   }
 
   // This can be changed to meet your own requirements, by default it shows messaging for a "example group"
@@ -40,16 +40,16 @@ const SpecialGroup = () => {
     <div>
       {isInTargetGroup ? (
         <Alert type="danger">
-          <ul>
-            <li className="mb-1">
-              User is in an example group, please visit <a href="https://example.com" className="underline">example.com</a> if you believe this is an error.
+          <ul className="govuk-list govuk-list--bullet">
+            <li>
+              User is in an example group, please visit <a href="https://example.com" className="govuk-link">example.com</a> if you believe this is an error.
             </li>
           </ul>
         </Alert>
       ) : (
         <Alert type="success">
-          <ul>
-            <li className="mb-1">User is not in an example group.</li>
+          <ul className="govuk-list govuk-list--bullet">
+            <li>User is not in an example group.</li>
           </ul>
         </Alert>
       )}
